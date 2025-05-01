@@ -1,0 +1,13 @@
+{
+  "name": "express-app",
+  "version": "1.0.0",
+  "description": "express v5 project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
