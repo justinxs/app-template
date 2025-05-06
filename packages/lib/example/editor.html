@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>editor</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      ul,
+      dl,
+      ol {
+        list-style: none;
+      }
+      .editor-container {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+        margin-left: 100px;
+        margin-bottom: 100px;
+      }
+      #content-editor,
+      #textarea-editor {
+        padding: 10px;
+        width: 200px;
+        height: 100px;
+        border: 1px solid #dddddd;
+        overflow: auto;
+      }
+      .emoji-container {
+        position: relative;
+      }
+      .emoji-list {
+        position: absolute;
+        left: 100%;
+        top: 0;
+        display: none;
+        width: 400px;
+        height: 200px;
+        overflow-y: auto;
+        flex-wrap: wrap;
+        background-color: #ccc;
+        user-select: none;
+      }
+      .emoji-item {
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        cursor: pointer;
+      }
+      .emoji-item:hover {
+        background-color: skyblue;
+      }
+      .emoji-text {
+        display: inline-block;
+        width: 60px;
+        background-color: skyblue;
+        text-align: center;
+        cursor: pointer;
+      }
+      .emoji-text:hover {
+        background-color: pink;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="editor-container">
+      <div id="content-editor"></div>
+      <div class="emoji-container">
+        <span class="emoji-text">emoji</span>
+        <ul class="emoji-list"></ul>
+      </div>
+    </div>
+
+    <div class="editor-container">
+      <textarea id="textarea-editor"></textarea>
+      <div class="emoji-container">
+        <span class="emoji-text">emoji</span>
+        <ul class="emoji-list"></ul>
+      </div>
+    </div>
+    <script type="module">
+      import * as Editor from './editor.js'
+      const emojiJson = ['😀', '😃', '😄', '😁', '😆', '😅']
+      const emojiHtml = emojiJson.reduce(
+        (str, code) => (str += `<li class="emoji-item">${code}</li>`),
+        '',
+      )
+      const emojiList = [...document.querySelectorAll('.emoji-list')]
+
+      const memoriesEditor = new Editor.MemoriesEditor({ editor: '#content-editor' })
+      const memoriesTextarea = new Editor.MemoriesEditor({ editor: '#textarea-editor' })
+      memoriesEditor.on('contentChange', ({ content, action }) => {
+        console.log(content, action)
+      })
+      memoriesEditor.on('enter', (editor) => {
+        console.log(editor.content)
+      })
+      emojiList.forEach((el, i) => {
+        el.innerHTML = emojiHtml
+        el.addEventListener(
+          'click',
+          function (e) {
+            const target = e.target
+            target.className === 'emoji-item' &&
+              (i == 0 ? memoriesEditor : memoriesTextarea).insert(target.innerText)
+          },
+          false,
+        )
+      })
+
+      const buttons = document.querySelectorAll('.emoji-text')
+      buttons.forEach((b) => {
+        b.addEventListener('click', (e) => {
+          if (b.nextElementSibling.style.display === 'flex') {
+            b.nextElementSibling.style.display = 'none'
+          } else {
+            b.nextElementSibling.style.display = 'flex'
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+    />
+    <title>Test</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😂</text></svg>"
+    />
+  </head>
+  <body>
+    <script type="module">
+      import { common, base64, xhr } from './index.js'
+      const special = new RegExp(common.escapeRegExp('['), 'g')
+      console.log(special.test('asdasdasd[asdasd]asdasdasd1'))
+      console.log(base64.base64Encode('☸☹☺☻☼☾☿'))
+      console.log(base64.base64Encode('\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F467}'))
+      console.log(
+        base64.base64Decode(base64.base64Encode('\u{1F468}\u{200D}\u{1F469}\u{200D}\u{1F467}')),
+      )
+      console.log(base64.base64Decode(base64.base64Encode('☸☹☺☻☼☾☿')))
+      console.log(base64.base64Decode('SGVsbG8gV29ybGQh4pi44pi54pi64pi74pi84pi+4pi/'))
+      console.log(
+        base64.base64AsBlob('data:text/plain;base64,SGVsbG8gV29ybGQh4pi44pi54pi64pi74pi84pi+4pi/'),
+      )
+      console.log(
+        base64
+          .base64AsBlob('data:text/plain;base64,SGVsbG8gV29ybGQh4pi44pi54pi64pi74pi84pi+4pi/')
+          .text(),
+      )
+
+      const imgBlob = base64.base64AsBlob(
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAWCAYAAADafVyIAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6QkVCMDNGRDlGQkIyMTFFQTlFNzU5NUM5N0QwNjEwMTUiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6QkVCMDNGREFGQkIyMTFFQTlFNzU5NUM5N0QwNjEwMTUiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpCRUIwM0ZEN0ZCQjIxMUVBOUU3NTk1Qzk3RDA2MTAxNSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpCRUIwM0ZEOEZCQjIxMUVBOUU3NTk1Qzk3RDA2MTAxNSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PiLGAz0AAAG7SURBVHjarNVPKARRHMDx2W1TSkrJnwMuG0qJg4ts7U1yJSdSNhcHa5MkLiSFg1zlX26bXPdE2D2gVevosKkVliJJuNj1ffUbjdlZdtb+6tNsb2be2/d+v3nP0R1KdWmato5q7X9xhyGEjI3OAnWuIoIzc6OrQJ3H0Y9i+FGEbdy7tMLEhFyP0Cy/R9DkND3ogSMHHsM7h9hDOZ4M7bXwOvP8x2m5pjCGSuxLPnuRkPvX5iUK2xxoAzGsoQE7OMEgKnDhoEzTec7iRTpVRRKVitTjA3V4+E+SF1SVIGjqXMWq6lyzuOHJMbFXWEGPqV1FEvPGD81uYo1luWzx3LQs3/eHZjfJx9jFjJSiMVQuNs1bhZ1QZRlAFSYtZhiQZ/IeQH3+56jBsGxwegStViCXJOtJfMUU3DiFD32S0EfJS+lfA/yW3JhUSKMM7MUBymT/SVgsW8YAYenQKCL33HL9NO3GnXiWZfPnMwM9VGJLcGtI+BY68IZZ2a4zzgM7oWZxiTlJeFzaWzBg9YLdKqrHO5ZkH1qUUyyarS+XlFqup9ooxtGaZfZJqxn4rG5kiXa0Zen8Rg79H/ElwABvXl/4yfiCuwAAAABJRU5ErkJggg==',
+      )
+      const img = new Image()
+      img.src = URL.createObjectURL(imgBlob)
+      document.body.appendChild(img)
+      console.log(imgBlob)
+
+      const pic = new Image()
+      pic.crossOrigin = 'anonymous'
+      pic.onload = function (e) {
+        const canvas = document.createElement('canvas')
+        canvas.width = pic.naturalWidth
+        canvas.height = pic.naturalHeight
+        const ctx = canvas.getContext('2d')
+        ctx.drawImage(pic, 0, 0, pic.naturalWidth, pic.naturalHeight)
+        document.body.appendChild(canvas)
+        canvas.toBlob(
+          function (file) {
+            console.log(file)
+          },
+          'image/jpeg',
+          1,
+        )
+      }
+      // pic.src = 'https://10wallpaper.com/wallpaper/1366x768/1603/Batman_v_Superman_2016-Movie_High_Quality_Wallpaper_1366x768.jpg'
+      // pic.src = 'https://gd1.alicdn.com/imgextra/i3/0/TB16l8ZMXXXXXXIXXXXXXXXXXXX_!!0-item_pic.jpg'
+      // xhr.downloadFile({
+      //     file: 'https://gd1.alicdn.com/imgextra/i3/0/TB16l8ZMXXXXXXIXXXXXXXXXXXX_!!0-item_pic.jpg',
+      //     fileName: 'superman.jpg',
+      //     isRemote: true
+      // })
+
+      console.log(common.floatOperate('+', 0.1, 0.2))
+      console.log(common.floatOperate('+', 0.1005, 0.2223))
+      console.log(common.floatOperate('+', 0.7002, 0.1111111))
+    </script>
+  </body>
+</html>
