@@ -2,5 +2,12 @@
   "private": true,
   "name": "pnpm-monorepo",
   "version": "1.0.0",
+  "scripts": {
+    "dev:vue": "pnpm --filter ./apps/vue-ts dev",
+    "dev:react": "pnpm --filter ./apps/react-ts dev",
+    "dev:fastify": "pnpm --filter ./apps/fastify-app dev",
+    "dev:next": "pnpm --filter ./apps/next-app dev",
+    "dev:all": "pnpm -r run dev"
+  },
   "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39"
 }
